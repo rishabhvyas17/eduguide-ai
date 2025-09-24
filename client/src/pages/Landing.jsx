@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LightRays from '../components/LightRays';
 import VariableProximity from '../components/VariableProximity';
 import ShinyText from '../components/ShinyText';
@@ -6,6 +7,7 @@ import MagicBento from '../components/MagicBento';
 
 const Landing = () => {
   const heroTextRef = useRef(null);
+  const navigate = useNavigate();
   
   const benefits = [
     { title: "Holistic Evaluation", desc: "Beyond marks - skills, interests, and potential", icon: "🌟" },
@@ -43,6 +45,10 @@ const Landing = () => {
       </div>
     </div>
   );
+
+  const handleDevelopersClick = () => {
+    navigate('/developers');
+  };
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-[#021526] via-[#03346E] to-[#021526] text-[#E2E2B6]">
@@ -186,27 +192,6 @@ const Landing = () => {
             particleCount={8}
             glowColor="110, 172, 218"
           />
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section id="benefits" className="relative z-10 py-20 bg-gradient-to-r from-[#021526]/80 to-[#03346E]/60">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-[#E2E2B6] mb-4">Why Choose EduGuide AI?</h2>
-            <p className="text-xl text-[#E2E2B6]/80 max-w-3xl mx-auto">
-              Transforming education with data-driven insights and personalized guidance
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {benefits.map((benefit, index) => (
-              <div key={index} className="bg-[#03346E]/50 backdrop-blur-sm rounded-xl p-8 text-center hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-[#6EACDA]/30">
-                <div className="text-5xl mb-4">{benefit.icon}</div>
-                <h3 className="text-xl font-semibold text-[#E2E2B6] mb-3">{benefit.title}</h3>
-                <p className="text-[#E2E2B6]/80">{benefit.desc}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -399,6 +384,184 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Role-based Highlights */}
+      <section className="relative z-10 py-20 bg-[#03346E]/30">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-[#E2E2B6] mb-4">Built for Every Role</h2>
+            <p className="text-xl text-[#E2E2B6]/80 max-w-3xl mx-auto">
+              Tailored experiences for students, teachers, parents, and administrators
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            {/* Students */}
+            <div className="bg-[#03346E]/70 backdrop-blur-sm border border-[#6EACDA]/30 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <div className="flex items-center mb-4">
+                <svg className="w-8 h-8 text-[#6EACDA] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <h3 className="text-xl font-semibold text-[#E2E2B6]">Students</h3>
+              </div>
+              <ul className="space-y-2 text-[#E2E2B6]/80 text-sm mb-4">
+                <li className="flex items-start">
+                  <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  See Skill Radar and monthly progress tracking
+                </li>
+                <li className="flex items-start">
+                  <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  Action items with micro-learning suggestions
+                </li>
+                <li className="flex items-start">
+                  <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  Access to saved reports and career guidance
+                </li>
+              </ul>
+              <div className="bg-[#6EACDA]/10 rounded-lg p-3">
+                <p className="text-xs text-[#6EACDA] font-medium">Best for middle → secondary grades (NEP-aligned)</p>
+              </div>
+            </div>
+
+            {/* Teachers */}
+            <div className="bg-[#03346E]/70 backdrop-blur-sm border border-[#6EACDA]/30 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <div className="flex items-center mb-4">
+                <svg className="w-8 h-8 text-[#6EACDA] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <h3 className="text-xl font-semibold text-[#E2E2B6]">Teachers</h3>
+              </div>
+              <ul className="space-y-2 text-[#E2E2B6]/80 text-sm mb-4">
+                <li className="flex items-start">
+                  <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  Class overview with quick score-entry grid
+                </li>
+                <li className="flex items-start">
+                  <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  Student flags and intervention alerts
+                </li>
+                <li className="flex items-start">
+                  <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  PTM report generator for parent meetings
+                </li>
+              </ul>
+              <div className="bg-[#6EACDA]/10 rounded-lg p-3">
+                <p className="text-xs text-[#6EACDA] font-medium">Best for middle → secondary grades (NEP-aligned)</p>
+              </div>
+            </div>
+
+            {/* Parents */}
+            <div className="bg-[#03346E]/70 backdrop-blur-sm border border-[#6EACDA]/30 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <div className="flex items-center mb-4">
+                <svg className="w-8 h-8 text-[#6EACDA] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                <h3 className="text-xl font-semibold text-[#E2E2B6]">Parents</h3>
+              </div>
+              <ul className="space-y-2 text-[#E2E2B6]/80 text-sm mb-4">
+                <li className="flex items-start">
+                  <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  Child selector with latest holistic reports
+                </li>
+                <li className="flex items-start">
+                  <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  Simplified advice and next steps
+                </li>
+                <li className="flex items-start">
+                  <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                  WhatsApp link delivery for easy access
+                </li>
+              </ul>
+              <div className="bg-[#6EACDA]/10 rounded-lg p-3">
+                <p className="text-xs text-[#6EACDA] font-medium">Best for middle → secondary grades (NEP-aligned)</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Admins/Counselors - Smaller Card */}
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-[#03346E]/70 backdrop-blur-sm border border-[#6EACDA]/30 rounded-xl p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+              <div className="flex items-center mb-4">
+                <svg className="w-8 h-8 text-[#6EACDA] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                <h3 className="text-xl font-semibold text-[#E2E2B6]">Admins / Counselors</h3>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4 mb-4">
+                <ul className="space-y-2 text-[#E2E2B6]/80 text-sm">
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                    School analytics and performance insights
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                    Audit logs and compliance tracking
+                  </li>
+                </ul>
+                <ul className="space-y-2 text-[#E2E2B6]/80 text-sm">
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                    Prompt-version control for AI scoring
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-1.5 h-1.5 bg-[#6EACDA] rounded-full mt-2 mr-2 flex-shrink-0"></span>
+                    Counselor review queue management
+                  </li>
+                </ul>
+              </div>
+              <div className="bg-[#6EACDA]/10 rounded-lg p-3">
+                <p className="text-xs text-[#6EACDA] font-medium">Best for middle → secondary grades (NEP-aligned)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="relative z-10 py-20 bg-[#021526]/40">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-[#E2E2B6] mb-4">Frequently Asked Questions</h2>
+            <p className="text-xl text-[#E2E2B6]/80">
+              Common questions about EduGuide AI implementation and features
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              {
+                question: "How long is the monthly test?",
+                answer: "15–30 minutes depending on grade and test type."
+              },
+              {
+                question: "Is student data secure?",
+                answer: "Yes – TLS-in-transit, encrypted at rest, role-based access + RLS recommended."
+              },
+              {
+                question: "Do parents need to install an app?",
+                answer: "No – reports are shared via WhatsApp/PDF/email and via the web portal."
+              },
+              {
+                question: "Can we run the system for only academics or only aptitude?",
+                answer: "Flexible: run either or both."
+              },
+              {
+                question: "Do you provide counselor training?",
+                answer: "Yes – included in pilot (video + playbook)."
+              },
+              {
+                question: "How do you ensure fair scoring?",
+                answer: "AI scoring with confidence scores + human review for low-confidence items; prompt-version logging for audit."
+              }
+            ].map((faq, index) => (
+              <div key={index} className="bg-[#03346E]/50 backdrop-blur-sm border border-[#6EACDA]/20 rounded-xl p-6 hover:border-[#6EACDA]/40 transition-all duration-300">
+                <h3 className="text-lg font-semibold text-[#E2E2B6] mb-3">{faq.question}</h3>
+                <p className="text-[#E2E2B6]/80 leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="relative z-10 py-20 bg-gradient-to-r from-[#03346E]/80 to-[#6EACDA]/60">
         <div className="max-w-4xl mx-auto text-center px-4">
@@ -414,6 +577,18 @@ const Landing = () => {
               Download Brochure
             </button>
           </div>
+        </div>
+      </section>
+
+      {/* Meet Our Developers Button */}
+      <section className="relative z-10 py-8 bg-[#021526]/20">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <button 
+            onClick={handleDevelopersClick}
+            className="text-[#E2E2B6]/60 hover:text-[#E2E2B6]/80 transition-all duration-300 text-sm font-medium underline underline-offset-4 hover:underline-offset-8 decoration-[#6EACDA]/40 hover:decoration-[#6EACDA]/60"
+          >
+            Meet Our Developers
+          </button>
         </div>
       </section>
 
