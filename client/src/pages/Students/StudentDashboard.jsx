@@ -14,6 +14,7 @@ import { colors } from './utils/colors';
 const StudentDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [subTab, setSubTab] = useState('academic'); // For analyse and records tabs
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const tabTitles = {
     dashboard: 'Student Dashboard',
@@ -53,17 +54,26 @@ const StudentDashboard = () => {
     }
   };
 
+  const sidebarWidth = isSidebarCollapsed ? 'ml-20' : 'ml-72';
+  const topBarLeft = isSidebarCollapsed ? 'left-28' : 'left-80';
+
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.background }}>
-      <Sidebar activeTab={activeTab} setActiveTab={handleTabChange} />
+      <Sidebar 
+        activeTab={activeTab} 
+        setActiveTab={handleTabChange}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={setIsSidebarCollapsed}
+      />
       <FloatingTopBar 
         activeTab={activeTab} 
         tabTitles={tabTitles} 
         subTab={subTab} 
-        setSubTab={setSubTab} 
+        setSubTab={setSubTab}
+        className={topBarLeft}
       />
       
-      <div className="ml-72 pt-24 p-6">
+      <div className={`${sidebarWidth} pt-32 p-6 transition-all duration-300`}>
         <div className="max-w-7xl mx-auto">
           {renderTabContent()}
         </div>

@@ -27,7 +27,7 @@ const AnalyseTab = ({ subTab }) => {
       {subTab === 'academic' ? (
         <div className="space-y-6">
           {/* Academic Performance Overview */}
-          <div className="grid grid-cols-2 gap-6">
+          <div id="overview" className="grid grid-cols-2 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Subject-wise Performance</h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -67,7 +67,7 @@ const AnalyseTab = ({ subTab }) => {
           </div>
 
           {/* Detailed Analysis */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div id="detailed" className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Detailed Academic Analysis</h3>
             <div className="grid grid-cols-3 gap-6">
               {mockAcademicData.map((subject, index) => (
@@ -103,7 +103,7 @@ const AnalyseTab = ({ subTab }) => {
       ) : (
         <div className="space-y-6">
           {/* Critical Thinking Skills */}
-          <div className="grid grid-cols-2 gap-6">
+          <div id="skills" className="grid grid-cols-2 gap-6">
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Skill Radar Chart</h3>
               <ResponsiveContainer width="100%" height={300}>
@@ -116,7 +116,7 @@ const AnalyseTab = ({ subTab }) => {
               </ResponsiveContainer>
             </div>
 
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <div id="progress" className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">Skill Progress</h3>
               <div className="space-y-4">
                 {mockAptitudeData.map((skill, index) => (
@@ -138,7 +138,7 @@ const AnalyseTab = ({ subTab }) => {
           </div>
 
           {/* Skill Recommendations */}
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div id="recommendations" className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <h3 className="text-lg font-semibold text-gray-800 mb-4">Skill Development Recommendations</h3>
             <div className="grid grid-cols-2 gap-4">
               <div className="border-l-4 border-red-400 bg-red-50 p-4 rounded-lg">
