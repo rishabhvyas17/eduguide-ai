@@ -1,21 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard/Dashboard';
-// Import other components as needed
+import StudentDashboard from './pages/Students/StudentDashboard'; // Remove curly braces for default export
 
-function App() {
+export default function App() {
   return (
     <Router>
       <div className="App">
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* Add other routes as needed */}
+          <Route path="/student" element={<StudentDashboard />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>
   );
 }
-
-export default App;
