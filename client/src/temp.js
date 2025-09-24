@@ -1,13 +1,13 @@
 // client/src/pages/Students/components/FloatingTopBar.jsx
+// CUSTOMIZABLE VERSION - Adjust these values to your preference
+
 import React, { useState, useEffect } from 'react';
 
 const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) => {
-  // ------------------------
-  // Customization variables
-  // ------------------------
+  // ... existing state and functions remain the same ...
 
-  const darkOverlayOpacity = 0.06;
-
+  // 🎨 CUSTOMIZATION VARIABLES - MODIFY THESE VALUES:
+  
   // 1. MAIN BAR TRANSPARENCY (0.01 = almost invisible, 0.1 = more visible)
   const mainBarOpacity = {
     start: 0.02,    // Top gradient opacity
@@ -16,7 +16,7 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
   };
 
   // 2. BLUR AMOUNT (10px = light blur, 60px = heavy blur)
-  const blurAmount = 4; // Current: 40px
+  const blurAmount = 40; // Current: 40px
 
   // 3. BORDER TRANSPARENCY (0.01 = barely visible, 0.2 = strong border)
   const borderOpacity = {
@@ -30,7 +30,7 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
     mainShadow: {
       blur: 40,           // Shadow blur radius
       spread: -15,        // Shadow spread
-      opacity: 0.1        // Shadow darkness (0.1 = light, 0.5 = dark)
+      opacity: 0.2        // Shadow darkness (0.1 = light, 0.5 = dark)
     },
     insetHighlight: {
       opacity: 0.03       // Inner glow strength
@@ -66,139 +66,15 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
     activeBorder: 0.1     // Active button border
   };
 
-  // -----------------------------------
-  // UI / interaction state + utilities
-  // -----------------------------------
-  const [scrollY, setScrollY] = useState(0);
-  const [activeSection, setActiveSection] = useState(0);
+  // ... existing functions remain the same ...
 
-  // Return the sections depending on activeTab / subTab
-  const getTabSections = () => {
-    switch (activeTab) {
-      case 'dashboard':
-        return [
-          { id: 'greeting', label: 'Overview' },
-          { id: 'stats', label: 'Quick Stats' },
-          { id: 'performance', label: 'Performance' },
-          { id: 'calendar', label: 'Calendar' },
-          { id: 'subjects', label: 'Subjects' }
-        ];
-      case 'analyse':
-        return subTab === 'academic' 
-          ? [
-              { id: 'overview', label: 'Academic Analysis' }
-            ]
-          : [
-              { id: 'skills', label: 'Critical Thinking' }
-            ];
-      case 'scheduled':
-        return [
-          { id: 'calendar', label: 'Calendar' },
-          { id: 'tests', label: 'All Tests' },
-          { id: 'start-exam', label: 'Start Exam' },
-          { id: 'results', label: 'Results' }
-        ];
-      case 'learning':
-        return [
-          { id: 'recommendations', label: 'AI Recommendations' },
-          { id: 'resources', label: 'Learning Resources' },
-          { id: 'career', label: 'Career Analysis' },
-          { id: 'goals', label: 'Study Goals' }
-        ];
-      case 'records':
-        return subTab === 'academic' 
-          ? [{ id: 'main', label: 'Academic Records' }]
-          : subTab === 'aptitude'
-          ? [{ id: 'main', label: 'Aptitude Tests' }]
-          : [{ id: 'main', label: 'Interview Records' }];
-      case 'profile':
-        return [
-          { id: 'personal', label: 'Personal Info' },
-          { id: 'contact', label: 'Contact & Settings' },
-          { id: 'goals', label: 'Academic Goals' },
-          { id: 'parents', label: 'Parent Info' }
-        ];
-      default:
-        return [];
-    }
-  };
-
-  const getSubNavItems = () => {
-    if (activeTab === 'analyse') {
-      return [
-        { id: 'academic', label: 'Academic Analysis' },
-        { id: 'critical', label: 'Critical Thinking' }
-      ];
-    }
-    if (activeTab === 'records') {
-      return [
-        { id: 'academic', label: 'Academic Records' },
-        { id: 'aptitude', label: 'Aptitude Tests' },
-        { id: 'interviews', label: 'Interview Records' }
-      ];
-    }
-    return [];
-  };
-
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
-
-  // Compute tab sections and subnav items
-  const tabSections = getTabSections();
-  const subNavItems = getSubNavItems();
-
-  // Show sub navigation for analyse and records tabs
-  const showSubNav = subNavItems.length > 0;
-
-  // Calculate bubble position - ensure it stays within bounds
-  const bubblePosition = tabSections.length > 1 
-    ? (activeSection / (tabSections.length - 1)) * 100 
-    : 0;
-
-  // -----------------------
-  // Scroll listener effect
-  // -----------------------
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-      
-      // Get all sections for current tab
-      const sections = getTabSections();
-      const scrollPosition = window.scrollY + 200; // Offset for better detection
-      
-      // Find which section is currently in view
-      let currentSection = 0;
-      sections.forEach((section, index) => {
-        const element = document.getElementById(section.id);
-        if (element && element.offsetTop <= scrollPosition) {
-          currentSection = index;
-        }
-      });
-      
-      setActiveSection(currentSection);
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    // call once on mount to set correct activeSection if page isn't at top
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeTab, subTab]);
-
-  // -------------------------
-  // Render
-  // -------------------------
   return (
     <div className={`fixed top-6 ${className || 'left-80'} right-6 z-40`}>
       <div 
-        className="backdrop-blur-lg rounded-3xl px-0 py-0 shadow-2xl"
+        className="backdrop-blur-lg border rounded-3xl px-6 py-3 shadow-2xl"
         style={{
-          // MAIN BAR BACKGROUND - uses customizable mainBarOpacity
+          // 🎨 MAIN BAR BACKGROUND - Adjust mainBarOpacity values above
           background: `
-          linear-gradient(180deg, rgba(0,0,0,${darkOverlayOpacity}) 0%, rgba(0,0,0,${darkOverlayOpacity * 0}) 100%),
             linear-gradient(135deg, 
               rgba(255, 255, 255, ${mainBarOpacity.start}) 0%, 
               rgba(255, 255, 255, ${mainBarOpacity.middle}) 50%, 
@@ -206,16 +82,16 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
             )
           `,
           
-          // BLUR EFFECT - blurAmount variable
+          // 🌫️ BLUR EFFECT - Adjust blurAmount above
           backdropFilter: `blur(${blurAmount}px) saturate(1.2)`,
           WebkitBackdropFilter: `blur(${blurAmount}px) saturate(1.2)`,
           
-          // BORDERS - borderOpacity variables
+          // 🖼️ BORDERS - Adjust borderOpacity values above
           border: `1px solid rgba(255, 255, 255, ${borderOpacity.main})`,
           borderTop: `1px solid rgba(255, 255, 255, ${borderOpacity.top})`,
           borderBottom: `1px solid rgba(0, 0, 0, ${borderOpacity.bottom})`,
           
-          // SHADOWS - shadowSettings variables
+          // 🌑 SHADOWS - Adjust shadowSettings values above
           boxShadow: `
             0 20px ${shadowSettings.mainShadow.blur}px ${shadowSettings.mainShadow.spread}px rgba(0, 0, 0, ${shadowSettings.mainShadow.opacity}),
             0 0 0 1px rgba(255, 255, 255, ${shadowSettings.insetHighlight.opacity}) inset,
@@ -255,7 +131,7 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
           </div>
         )}
 
-        {/* WATER BUBBLE / TAB SECTIONS */}
+        {/* WATER BUBBLE NAVIGATION */}
         {tabSections.length > 0 && (
           <div className="relative">
             <div 
@@ -265,7 +141,7 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
                 borderColor: `rgba(255, 255, 255, ${subNavOpacity.border})`
               }}
             >
-              {/* WATER BUBBLE - 3D / Liquid glass style */}
+              {/* 🫧 WATER BUBBLE - Adjust bubbleOpacity values above */}
               <div
                 className="absolute h-8 backdrop-blur-sm rounded-2xl transition-all duration-700 ease-out z-10"
                 style={{
@@ -273,20 +149,20 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
                   width: `${Math.max(100 / tabSections.length - 2, 15)}%`,
                   transform: 'translateX(-50%)',
                   
-                  // BUBBLE BACKGROUND GRADIENTS - uses bubbleOpacity
+                  // 🎨 BUBBLE BACKGROUND GRADIENTS
                   background: `
                     radial-gradient(ellipse at top left, rgba(255, 255, 255, ${bubbleOpacity.topLeft}) 0%, rgba(255, 255, 255, ${bubbleOpacity.bottomRight}) 50%, transparent 70%),
                     radial-gradient(ellipse at bottom right, rgba(255, 255, 255, ${bubbleOpacity.bottomRight}) 0%, transparent 50%),
                     linear-gradient(45deg, rgba(255, 255, 255, ${bubbleOpacity.gradient}) 0%, rgba(255, 255, 255, ${bubbleOpacity.gradientEnd}) 100%)
                   `,
                   
-                  // BUBBLE BORDERS
+                  // 🖼️ BUBBLE BORDERS
                   border: `1px solid rgba(255, 255, 255, ${bubbleOpacity.border})`,
                   borderTop: `1px solid rgba(255, 255, 255, ${bubbleOpacity.borderTop})`,
                   borderLeft: `1px solid rgba(255, 255, 255, ${bubbleOpacity.borderLeft})`,
                   borderRadius: '16px',
                   
-                  // BUBBLE SHADOWS
+                  // 🌑 BUBBLE SHADOWS
                   boxShadow: `
                     inset 0 1px 0 rgba(255, 255, 255, ${bubbleOpacity.innerHighlight}),
                     inset 0 -1px 0 rgba(0, 0, 0, ${bubbleOpacity.innerShadow}),
@@ -296,7 +172,7 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
                 }}
               />
               
-              {/* Navigation buttons */}
+              {/* Navigation buttons remain the same */}
               {tabSections.map((section, index) => (
                 <button
                   key={section.id}
@@ -325,3 +201,38 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
 };
 
 export default FloatingTopBar;
+
+/*
+🎨 QUICK CUSTOMIZATION GUIDE:
+
+1. MAKE MORE TRANSPARENT:
+   - Decrease mainBarOpacity values (try 0.01, 0.02, 0.01)
+   - Decrease borderOpacity.main (try 0.03)
+   - Decrease bubbleOpacity values
+
+2. MAKE MORE VISIBLE/DARKER:
+   - Increase mainBarOpacity values (try 0.05, 0.08, 0.05)
+   - Increase borderOpacity values
+   - Increase shadowSettings.mainShadow.opacity (try 0.3)
+
+3. STRONGER BLUR:
+   - Increase blurAmount (try 60)
+
+4. LIGHTER BLUR:
+   - Decrease blurAmount (try 20)
+
+5. MORE PRONOUNCED BUBBLE:
+   - Increase bubbleOpacity.topLeft (try 0.3)
+   - Increase bubbleOpacity.border (try 0.2)
+
+6. SUBTLER BUBBLE:
+   - Decrease bubbleOpacity values by half
+
+7. STRONGER SHADOWS:
+   - Increase shadowSettings.mainShadow.opacity (try 0.4)
+   - Increase shadowSettings.mainShadow.blur (try 60)
+
+8. LIGHTER SHADOWS:
+   - Decrease shadowSettings.mainShadow.opacity (try 0.1)
+   - Decrease shadowSettings.mainShadow.blur (try 20)
+*/

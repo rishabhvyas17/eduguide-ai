@@ -54,8 +54,9 @@ const StudentDashboard = () => {
     }
   };
 
+  // Calculate positioning based on sidebar state
   const sidebarWidth = isSidebarCollapsed ? 'ml-20' : 'ml-72';
-  const topBarLeft = isSidebarCollapsed ? 'left-28' : 'left-80';
+  const topBarLeft = isSidebarCollapsed ? 'left-36' : 'left-96'; // Account for burger button
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.background }}>
@@ -73,7 +74,7 @@ const StudentDashboard = () => {
         className={topBarLeft}
       />
       
-      <div className={`${sidebarWidth} pt-32 p-6 transition-all duration-300`}>
+      <div className={`${sidebarWidth} pt-28 p-6 transition-all duration-300`}>
         <div className="max-w-7xl mx-auto">
           {renderTabContent()}
         </div>
