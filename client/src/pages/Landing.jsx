@@ -87,7 +87,7 @@ const Landing = () => {
                 For Parents
               </a>
               
-              <a href="#" className="text-[#E2E2B6]/80 hover:text-[#E2E2B6] transition-all duration-200 py-2 px-3 rounded-lg hover:bg-[#6EACDA]/10">
+              <a href="/student" className="text-[#E2E2B6]/80 hover:text-[#E2E2B6] transition-all duration-200 py-2 px-3 rounded-lg hover:bg-[#6EACDA]/10">
                 For Students
               </a>
               
