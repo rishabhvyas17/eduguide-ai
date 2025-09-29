@@ -1,78 +1,57 @@
 // client/src/pages/Students/components/FloatingTopBar.jsx
 import React, { useState, useEffect } from 'react';
 
-const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) => {
-  // ------------------------
-  // Customization variables
-  // ------------------------
-
+const FloatingTopBar = ({ activeTab, tabTitles, className }) => {
   const darkOverlayOpacity = 0.06;
 
-  // 1. MAIN BAR TRANSPARENCY (0.01 = almost invisible, 0.1 = more visible)
   const mainBarOpacity = {
-    start: 0.02,    // Top gradient opacity
-    middle: 0.05,   // Middle gradient opacity  
-    end: 0.02       // Bottom gradient opacity
+    start: 0.02,
+    middle: 0.05,
+    end: 0.02
   };
 
-  // 2. BLUR AMOUNT (10px = light blur, 60px = heavy blur)
-  const blurAmount = 4; // Current: 40px
+  const blurAmount = 4;
 
-  // 3. BORDER TRANSPARENCY (0.01 = barely visible, 0.2 = strong border)
   const borderOpacity = {
-    main: 0.06,     // Main border
-    top: 0.15,      // Top highlight
-    bottom: 0.05    // Bottom shadow
+    main: 0.06,
+    top: 0.15,
+    bottom: 0.05
   };
 
-  // 4. SHADOW INTENSITY
   const shadowSettings = {
     mainShadow: {
-      blur: 40,           // Shadow blur radius
-      spread: -15,        // Shadow spread
-      opacity: 0.1        // Shadow darkness (0.1 = light, 0.5 = dark)
+      blur: 40,
+      spread: -15,
+      opacity: 0.1
     },
     insetHighlight: {
-      opacity: 0.03       // Inner glow strength
+      opacity: 0.03
     },
     topHighlight: {
-      opacity: 0.1        // Top edge highlight
+      opacity: 0.1
     },
     bottomShadow: {
-      opacity: 0.05       // Bottom edge shadow
+      opacity: 0.05
     }
   };
 
-  // 5. WATER BUBBLE TRANSPARENCY
   const bubbleOpacity = {
-    topLeft: 0.2,         // Top-left highlight (main shine)
-    bottomRight: 0.1,     // Bottom-right subtle glow
-    gradient: 0.08,       // Overall gradient opacity
-    gradientEnd: 0.02,    // Gradient fade-out
-    border: 0.12,         // Bubble border
-    borderTop: 0.25,      // Top border highlight
-    borderLeft: 0.15,     // Left border highlight
-    innerHighlight: 0.3,  // Inner top highlight
-    innerShadow: 0.1,     // Inner bottom shadow
-    dropShadow: 0.15,     // Drop shadow below bubble
-    innerGlow: 0.1        // Inner glow effect
+    topLeft: 0.2,
+    bottomRight: 0.1,
+    gradient: 0.08,
+    gradientEnd: 0.02,
+    border: 0.12,
+    borderTop: 0.25,
+    borderLeft: 0.15,
+    innerHighlight: 0.3,
+    innerShadow: 0.1,
+    dropShadow: 0.15,
+    innerGlow: 0.1
   };
 
-  // 6. SUB NAVIGATION TRANSPARENCY
-  const subNavOpacity = {
-    background: 0.08,     // Sub nav background
-    border: 0.06,         // Sub nav border
-    activeButton: 0.15,   // Active button background
-    activeBorder: 0.1     // Active button border
-  };
-
-  // -----------------------------------
-  // UI / interaction state + utilities
-  // -----------------------------------
   const [scrollY, setScrollY] = useState(0);
   const [activeSection, setActiveSection] = useState(0);
 
-  // Return the sections depending on activeTab / subTab
   const getTabSections = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -84,13 +63,10 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
           { id: 'subjects', label: 'Subjects' }
         ];
       case 'analyse':
-        return subTab === 'academic' 
-          ? [
-              { id: 'overview', label: 'Academic Analysis' }
-            ]
-          : [
-              { id: 'skills', label: 'Critical Thinking' }
-            ];
+        return [
+          { id: 'analytic-analyse', label: 'Analytic Analyse' },
+          { id: 'critical-thinking', label: 'Critical Thinking' }
+        ];
       case 'scheduled':
         return [
           { id: 'calendar', label: 'Calendar' },
@@ -106,11 +82,11 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
           { id: 'goals', label: 'Study Goals' }
         ];
       case 'records':
-        return subTab === 'academic' 
-          ? [{ id: 'main', label: 'Academic Records' }]
-          : subTab === 'aptitude'
-          ? [{ id: 'main', label: 'Aptitude Tests' }]
-          : [{ id: 'main', label: 'Interview Records' }];
+        return [
+          { id: 'academic-records', label: 'Academic Records' },
+          { id: 'aptitude-tests', label: 'Aptitude Tests' },
+          { id: 'interview-records', label: 'Interview Records' }
+        ];
       case 'profile':
         return [
           { id: 'personal', label: 'Personal Info' },
@@ -123,59 +99,65 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
     }
   };
 
-  const getSubNavItems = () => {
-    if (activeTab === 'analyse') {
-      return [
-        { id: 'academic', label: 'Academic Analysis' },
-        { id: 'critical', label: 'Critical Thinking' }
-      ];
-    }
-    if (activeTab === 'records') {
-      return [
-        { id: 'academic', label: 'Academic Records' },
-        { id: 'aptitude', label: 'Aptitude Tests' },
-        { id: 'interviews', label: 'Interview Records' }
-      ];
-    }
-    return [];
-  };
-
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const yOffset = -150;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   };
 
-  // Compute tab sections and subnav items
   const tabSections = getTabSections();
-  const subNavItems = getSubNavItems();
 
-  // Show sub navigation for analyse and records tabs
-  const showSubNav = subNavItems.length > 0;
+  // Calculate bubble position - it should be at discrete button positions only
+  const calculateBubbleLeft = () => {
+    if (tabSections.length === 0) return '0%';
+    
+    // Calculate the width of each button as a percentage
+    const buttonWidthPercent = 100 / tabSections.length;
+    
+    // Position bubble at the exact button position
+    // Each button starts at: index * buttonWidthPercent
+    const leftPosition = activeSection * buttonWidthPercent;
+    
+    return `${leftPosition}%`;
+  };
 
-  // Calculate bubble position - ensure it stays within bounds
-  const bubblePosition = tabSections.length > 1 
-    ? (activeSection / (tabSections.length - 1)) * 100 
-    : 0;
+  const bubbleLeft = calculateBubbleLeft();
+  const bubbleWidth = tabSections.length > 0 ? `${100 / tabSections.length}%` : '0%';
 
-  // -----------------------
-  // Scroll listener effect
-  // -----------------------
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
       
-      // Get all sections for current tab
       const sections = getTabSections();
-      const scrollPosition = window.scrollY + 200; // Offset for better detection
+      if (sections.length === 0) return;
       
-      // Find which section is currently in view
+      // Use a point 200px from top for better detection
+      const scrollPosition = window.scrollY + 200;
+      
       let currentSection = 0;
+      let minDistance = Infinity;
+      
       sections.forEach((section, index) => {
         const element = document.getElementById(section.id);
-        if (element && element.offsetTop <= scrollPosition) {
-          currentSection = index;
+        if (element) {
+          const elementTop = element.offsetTop;
+          const elementBottom = elementTop + element.offsetHeight;
+          
+          // If we're within the section
+          if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+            currentSection = index;
+            minDistance = 0;
+          } else if (minDistance > 0) {
+            // Find closest section
+            const distance = Math.abs(elementTop - scrollPosition);
+            if (distance < minDistance) {
+              minDistance = distance;
+              currentSection = index;
+            }
+          }
         }
       });
       
@@ -183,20 +165,15 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
     };
     
     window.addEventListener('scroll', handleScroll);
-    // call once on mount to set correct activeSection if page isn't at top
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeTab, subTab]);
+  }, [activeTab]);
 
-  // -------------------------
-  // Render
-  // -------------------------
   return (
     <div className={`fixed top-6 ${className || 'left-80'} right-6 z-40`}>
       <div 
         className="backdrop-blur-lg rounded-3xl px-0 py-0 shadow-2xl"
         style={{
-          // MAIN BAR BACKGROUND - uses customizable mainBarOpacity
           background: `
           linear-gradient(180deg, rgba(0,0,0,${darkOverlayOpacity}) 0%, rgba(0,0,0,${darkOverlayOpacity * 0}) 100%),
             linear-gradient(135deg, 
@@ -205,17 +182,11 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
               rgba(255, 255, 255, ${mainBarOpacity.end}) 100%
             )
           `,
-          
-          // BLUR EFFECT - blurAmount variable
           backdropFilter: `blur(${blurAmount}px) saturate(1.2)`,
           WebkitBackdropFilter: `blur(${blurAmount}px) saturate(1.2)`,
-          
-          // BORDERS - borderOpacity variables
           border: `1px solid rgba(255, 255, 255, ${borderOpacity.main})`,
           borderTop: `1px solid rgba(255, 255, 255, ${borderOpacity.top})`,
           borderBottom: `1px solid rgba(0, 0, 0, ${borderOpacity.bottom})`,
-          
-          // SHADOWS - shadowSettings variables
           boxShadow: `
             0 20px ${shadowSettings.mainShadow.blur}px ${shadowSettings.mainShadow.spread}px rgba(0, 0, 0, ${shadowSettings.mainShadow.opacity}),
             0 0 0 1px rgba(255, 255, 255, ${shadowSettings.insetHighlight.opacity}) inset,
@@ -224,69 +195,34 @@ const FloatingTopBar = ({ activeTab, tabTitles, subTab, setSubTab, className }) 
           `
         }}
       >
-        {/* SUB NAVIGATION */}
-        {showSubNav && (
-          <div className="flex items-center justify-center mb-3">
-            <div 
-              className="flex items-center space-x-1 backdrop-blur-sm rounded-2xl p-1 border"
-              style={{
-                backgroundColor: `rgba(255, 255, 255, ${subNavOpacity.background})`,
-                borderColor: `rgba(255, 255, 255, ${subNavOpacity.border})`
-              }}
-            >
-              {subNavItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setSubTab(item.id)}
-                  className={`px-4 py-2 rounded-xl font-medium text-sm transition-all duration-300 ${
-                    subTab === item.id
-                      ? 'text-gray-800 shadow-sm backdrop-blur-sm border'
-                      : 'text-gray-600 hover:bg-white/6 hover:text-gray-800'
-                  }`}
-                  style={subTab === item.id ? {
-                    backgroundColor: `rgba(255, 255, 255, ${subNavOpacity.activeButton})`,
-                    borderColor: `rgba(255, 255, 255, ${subNavOpacity.activeBorder})`
-                  } : {}}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* WATER BUBBLE / TAB SECTIONS */}
         {tabSections.length > 0 && (
           <div className="relative">
             <div 
               className="flex items-center backdrop-blur-sm rounded-2xl p-2 border relative overflow-hidden"
               style={{
-                backgroundColor: `rgba(255, 255, 255, ${subNavOpacity.background})`,
-                borderColor: `rgba(255, 255, 255, ${subNavOpacity.border})`
+                backgroundColor: `rgba(255, 255, 255, 0.08)`,
+                borderColor: `rgba(255, 255, 255, 0.06)`
               }}
             >
-              {/* WATER BUBBLE - 3D / Liquid glass style */}
+              {/* WATER BUBBLE - Snaps to button positions */}
               <div
-                className="absolute h-8 backdrop-blur-sm rounded-2xl transition-all duration-700 ease-out z-10"
+                className="absolute h-8 backdrop-blur-sm rounded-2xl transition-all duration-500 ease-in-out z-10"
                 style={{
-                  left: `${2 + (bubblePosition * (100 - 4)) / 100}%`,
-                  width: `${Math.max(100 / tabSections.length - 2, 15)}%`,
-                  transform: 'translateX(-50%)',
+                  left: bubbleLeft,
+                  width: bubbleWidth,
+                  top: '8px',
                   
-                  // BUBBLE BACKGROUND GRADIENTS - uses bubbleOpacity
                   background: `
                     radial-gradient(ellipse at top left, rgba(255, 255, 255, ${bubbleOpacity.topLeft}) 0%, rgba(255, 255, 255, ${bubbleOpacity.bottomRight}) 50%, transparent 70%),
                     radial-gradient(ellipse at bottom right, rgba(255, 255, 255, ${bubbleOpacity.bottomRight}) 0%, transparent 50%),
                     linear-gradient(45deg, rgba(255, 255, 255, ${bubbleOpacity.gradient}) 0%, rgba(255, 255, 255, ${bubbleOpacity.gradientEnd}) 100%)
                   `,
                   
-                  // BUBBLE BORDERS
                   border: `1px solid rgba(255, 255, 255, ${bubbleOpacity.border})`,
                   borderTop: `1px solid rgba(255, 255, 255, ${bubbleOpacity.borderTop})`,
                   borderLeft: `1px solid rgba(255, 255, 255, ${bubbleOpacity.borderLeft})`,
                   borderRadius: '16px',
                   
-                  // BUBBLE SHADOWS
                   boxShadow: `
                     inset 0 1px 0 rgba(255, 255, 255, ${bubbleOpacity.innerHighlight}),
                     inset 0 -1px 0 rgba(0, 0, 0, ${bubbleOpacity.innerShadow}),

@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Play, Calendar as CalendarIcon, Clock } from 'lucide-react';
 import { mockUpcomingTests } from '../data/mockData';
+import TakeTest from './TakeTest';
 
 const ScheduledTestsTab = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [showTestInterface, setShowTestInterface] = useState(false);
   
   const generateCalendar = () => {
     const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
@@ -27,10 +29,10 @@ const ScheduledTestsTab = () => {
   const currentMonth = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
   
   // Mock dates for different event types
-  const testDates = [5, 8, 15, 22, 28]; // Academic tests - blue
-  const aptitudeDates = [5, 12, 26]; // Aptitude tests - purple
-  const piDates = [12, 25]; // Personal interviews - green
-  const eventDates = [10, 18, 30]; // Other events - orange
+  const testDates = [5, 8, 15, 22, 28];
+  const aptitudeDates = [5, 12, 26];
+  const piDates = [12, 25];
+  const eventDates = [10, 18, 30];
 
   const navigateMonth = (direction) => {
     const newDate = new Date(currentDate);
@@ -47,16 +49,18 @@ const ScheduledTestsTab = () => {
     return null;
   };
 
-  const getEventStyle = (eventType, isToday) => {
-    if (isToday) return 'bg-purple-600 text-white font-bold';
-    switch (eventType) {
-      case 'pi': return 'bg-green-100 text-green-800 font-semibold';
-      case 'aptitude': return 'bg-purple-100 text-purple-800 font-semibold';
-      case 'test': return 'bg-blue-100 text-blue-800 font-semibold';
-      case 'event': return 'bg-orange-100 text-orange-800 font-semibold';
-      default: return 'hover:bg-gray-100';
-    }
+  const handleStartTest = () => {
+    setShowTestInterface(true);
   };
+
+  const handleCloseTest = () => {
+    setShowTestInterface(false);
+  };
+
+  // If test interface is shown, render only that (full screen)
+  if (showTestInterface) {
+    return <TakeTest onClose={handleCloseTest} />;
+  }
 
   return (
     <div className="space-y-6">
@@ -84,7 +88,7 @@ const ScheduledTestsTab = () => {
           
           <div className="grid grid-cols-7 gap-1 text-center text-sm mb-4">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-              <div key={day} className="font-semibold text-gray-600 p-2">{day}</div>
+              <div key={day} className="font-semibold text-gray-700 p-2">{day}</div>
             ))}
             
             {calendarDays.map((date, i) => {
@@ -96,10 +100,20 @@ const ScheduledTestsTab = () => {
               return (
                 <div
                   key={i}
-                  className={`p-2 rounded-lg cursor-pointer transition-colors text-center ${
+                  className={`p-2 rounded-lg cursor-pointer transition-colors text-center font-medium ${
                     !isCurrentMonth 
-                      ? 'text-gray-300' 
-                      : getEventStyle(eventType, isToday) || 'text-gray-700 hover:bg-gray-100'
+                      ? 'text-gray-400' 
+                      : isToday
+                      ? 'bg-purple-600 text-white font-bold'
+                      : eventType === 'pi'
+                      ? 'bg-green-100 text-green-800 font-semibold'
+                      : eventType === 'aptitude'
+                      ? 'bg-purple-100 text-purple-800 font-semibold'
+                      : eventType === 'test'
+                      ? 'bg-blue-100 text-blue-800 font-semibold'
+                      : eventType === 'event'
+                      ? 'bg-orange-100 text-orange-800 font-semibold'
+                      : 'text-gray-800 hover:bg-gray-100'
                   }`}
                 >
                   {day}
@@ -172,7 +186,10 @@ const ScheduledTestsTab = () => {
                 <p className="text-xs text-purple-200">Duration: 30 minutes</p>
               </div>
               
-              <button className="w-full bg-white text-purple-600 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors">
+              <button 
+                onClick={handleStartTest}
+                className="w-full bg-white text-purple-600 font-semibold py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors"
+              >
                 Start Test
               </button>
               

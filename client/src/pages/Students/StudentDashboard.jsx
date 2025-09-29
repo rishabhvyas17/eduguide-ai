@@ -13,7 +13,6 @@ import { colors } from './utils/colors';
 
 const StudentDashboard = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
-  const [subTab, setSubTab] = useState('academic'); // For analyse and records tabs
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const tabTitles = {
@@ -25,16 +24,6 @@ const StudentDashboard = () => {
     profile: 'Profile & Settings'
   };
 
-  // Reset subTab when changing main tabs
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    if (tab === 'analyse') {
-      setSubTab('academic');
-    } else if (tab === 'records') {
-      setSubTab('academic');
-    }
-  };
-
   const renderTabContent = () => {
     switch (activeTab) {
       case 'dashboard':
@@ -44,9 +33,9 @@ const StudentDashboard = () => {
       case 'learning':
         return <LearningTab />;
       case 'analyse':
-        return <AnalyseTab subTab={subTab} />;
+        return <AnalyseTab />;
       case 'records':
-        return <RecordsTab subTab={subTab} />;
+        return <RecordsTab />;
       case 'profile':
         return <ProfileTab />;
       default:
@@ -62,15 +51,13 @@ const StudentDashboard = () => {
     <div className="min-h-screen" style={{ backgroundColor: colors.background }}>
       <Sidebar 
         activeTab={activeTab} 
-        setActiveTab={handleTabChange}
+        setActiveTab={setActiveTab}
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={setIsSidebarCollapsed}
       />
       <FloatingTopBar 
         activeTab={activeTab} 
-        tabTitles={tabTitles} 
-        subTab={subTab} 
-        setSubTab={setSubTab}
+        tabTitles={tabTitles}
         className={topBarLeft}
       />
       
