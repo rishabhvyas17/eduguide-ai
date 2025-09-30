@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { Camera, Edit3, Save, X } from 'lucide-react';
 import { mockStudent } from '../data/mockData';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 const ProfileTab = () => {
+  const { language, changeLanguage, t } = useLanguage();
   const [editMode, setEditMode] = useState(false);
   const [profileData, setProfileData] = useState(mockStudent);
   const [tempData, setTempData] = useState(mockStudent);
@@ -31,6 +33,10 @@ const ProfileTab = () => {
     }));
   };
 
+  const handleLanguageChange = (e) => {
+    changeLanguage(e.target.value);
+  };
+
   return (
     <div className="space-y-6">
       {/* Profile Header */}
@@ -49,7 +55,7 @@ const ProfileTab = () => {
           <div className="flex-1">
             <h2 className="text-2xl font-bold">{profileData.name}</h2>
             <p className="text-purple-100">{profileData.grade} • {profileData.school}</p>
-            <p className="text-purple-200 text-sm">Student ID: {profileData.id}</p>
+            <p className="text-purple-200 text-sm">{t('profile.rollNumber')}: {profileData.id}</p>
           </div>
           <div className="ml-auto flex space-x-2">
             {!editMode ? (
@@ -58,7 +64,7 @@ const ProfileTab = () => {
                 className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-white/30 transition-colors flex items-center space-x-2"
               >
                 <Edit3 className="w-4 h-4" />
-                <span>Edit Profile</span>
+                <span>{t('profile.editProfile')}</span>
               </button>
             ) : (
               <>
@@ -67,14 +73,14 @@ const ProfileTab = () => {
                   className="bg-red-500/20 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-red-500/30 transition-colors flex items-center space-x-2"
                 >
                   <X className="w-4 h-4" />
-                  <span>Cancel</span>
+                  <span>{t('profile.cancelChanges')}</span>
                 </button>
                 <button
                   onClick={handleSave}
                   className="bg-green-500/20 backdrop-blur-sm px-4 py-2 rounded-lg hover:bg-green-500/30 transition-colors flex items-center space-x-2"
                 >
                   <Save className="w-4 h-4" />
-                  <span>Save Changes</span>
+                  <span>{t('profile.saveChanges')}</span>
                 </button>
               </>
             )}
@@ -85,10 +91,10 @@ const ProfileTab = () => {
       <div className="grid grid-cols-2 gap-6">
         {/* Personal Information */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Personal Information</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('profile.personalInfo')}</h3>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-600">Full Name</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.fullName')}</label>
               <input
                 type="text"
                 value={editMode ? tempData.name : profileData.name}
@@ -98,7 +104,7 @@ const ProfileTab = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Grade</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.grade')}</label>
               <input
                 type="text"
                 value={editMode ? tempData.grade : profileData.grade}
@@ -108,7 +114,7 @@ const ProfileTab = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Section</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.section')}</label>
               <input
                 type="text"
                 value={editMode ? tempData.section : profileData.section}
@@ -118,7 +124,7 @@ const ProfileTab = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Roll Number</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.rollNumber')}</label>
               <input
                 type="text"
                 value={editMode ? tempData.rollNumber : profileData.rollNumber}
@@ -128,7 +134,7 @@ const ProfileTab = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Date of Birth</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.dateOfBirth')}</label>
               <input
                 type="date"
                 value={editMode ? tempData.dateOfBirth : profileData.dateOfBirth}
@@ -138,7 +144,7 @@ const ProfileTab = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Blood Group</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.bloodGroup')}</label>
               <select
                 value={editMode ? tempData.bloodGroup : profileData.bloodGroup}
                 onChange={(e) => editMode && handleInputChange('bloodGroup', e.target.value)}
@@ -160,10 +166,10 @@ const ProfileTab = () => {
 
         {/* Contact & Settings */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Contact & Settings</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('profile.contactSettings')}</h3>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium text-gray-600">Email Address</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.email')}</label>
               <input
                 type="email"
                 value={editMode ? tempData.email : profileData.email}
@@ -173,7 +179,7 @@ const ProfileTab = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Phone Number</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.phone')}</label>
               <input
                 type="tel"
                 value={editMode ? tempData.phone : profileData.phone}
@@ -183,7 +189,7 @@ const ProfileTab = () => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Address</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.address')}</label>
               <textarea
                 value={editMode ? tempData.address : profileData.address}
                 onChange={(e) => editMode && handleInputChange('address', e.target.value)}
@@ -203,25 +209,30 @@ const ProfileTab = () => {
                 <option>Marathi</option>
                 <option>Gujarati</option>
               </select>
+              <p className="text-xs text-gray-500 mt-1">
+                {language === 'en' 
+                  ? 'Selecting Hindi will change all text on the website to Hindi' 
+                  : 'हिंदी चुनने से वेबसाइट का सभी टेक्स्ट हिंदी में बदल जाएगा'}
+              </p>
             </div>
             <div>
-              <label className="text-sm font-medium text-gray-600">Notification Preferences</label>
+              <label className="text-sm font-medium text-gray-600">{t('profile.notificationPreferences')}</label>
               <div className="mt-2 space-y-2">
                 <label className="flex items-center">
                   <input type="checkbox" defaultChecked className="mr-2 rounded focus:ring-purple-500" />
-                  <span className="text-sm text-gray-700">WhatsApp Notifications</span>
+                  <span className="text-sm text-gray-700">{t('profile.whatsappNotifications')}</span>
                 </label>
                 <label className="flex items-center">
                   <input type="checkbox" defaultChecked className="mr-2 rounded focus:ring-purple-500" />
-                  <span className="text-sm text-gray-700">Email Notifications</span>
+                  <span className="text-sm text-gray-700">{t('profile.emailNotifications')}</span>
                 </label>
                 <label className="flex items-center">
                   <input type="checkbox" className="mr-2 rounded focus:ring-purple-500" />
-                  <span className="text-sm text-gray-700">SMS Notifications</span>
+                  <span className="text-sm text-gray-700">{t('profile.smsNotifications')}</span>
                 </label>
                 <label className="flex items-center">
                   <input type="checkbox" defaultChecked className="mr-2 rounded focus:ring-purple-500" />
-                  <span className="text-sm text-gray-700">Test Reminders</span>
+                  <span className="text-sm text-gray-700">{t('profile.testReminders')}</span>
                 </label>
               </div>
             </div>
@@ -231,42 +242,50 @@ const ProfileTab = () => {
 
       {/* Academic Goals & Interests */}
       <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Academic Goals & Interests</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('profile.academicGoals')}</h3>
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="text-sm font-medium text-gray-600">Career Interests</label>
+            <label className="text-sm font-medium text-gray-600">
+              {language === 'en' ? 'Career Interests' : 'करियर रुचियां'}
+            </label>
             <div className="mt-2 space-y-2">
               {[
-                'Engineering', 'Medicine', 'Research', 'Arts & Literature', 
-                'Sports & Fitness', 'Technology & IT', 'Business & Management', 
-                'Teaching & Education', 'Defense & Security', 'Media & Journalism'
-              ].map((interest) => (
-                <label key={interest} className="flex items-center">
+                { en: 'Engineering', hi: 'इंजीनियरिंग' },
+                { en: 'Medicine', hi: 'चिकित्सा' },
+                { en: 'Research', hi: 'अनुसंधान' },
+                { en: 'Arts & Literature', hi: 'कला और साहित्य' },
+                { en: 'Sports & Fitness', hi: 'खेल और फिटनेस' }
+              ].map((interest, index) => (
+                <label key={index} className="flex items-center">
                   <input 
                     type="checkbox" 
-                    defaultChecked={interest === 'Engineering' || interest === 'Technology & IT'} 
+                    defaultChecked={index === 0 || index === 1} 
                     className="mr-2 rounded focus:ring-purple-500" 
                   />
-                  <span className="text-sm text-gray-700">{interest}</span>
+                  <span className="text-sm text-gray-700">{language === 'en' ? interest.en : interest.hi}</span>
                 </label>
               ))}
             </div>
           </div>
           <div>
-            <label className="text-sm font-medium text-gray-600">Extracurricular Activities</label>
+            <label className="text-sm font-medium text-gray-600">
+              {language === 'en' ? 'Extracurricular Activities' : 'पाठ्येतर गतिविधियां'}
+            </label>
             <div className="mt-2 space-y-2">
               {[
-                'Debate Club', 'Science Club', 'Sports Team', 'Music Band', 
-                'Drama Club', 'Art Society', 'Photography Club', 'Robotics Club',
-                'Environmental Club', 'Literary Society'
-              ].map((activity) => (
-                <label key={activity} className="flex items-center">
+                { en: 'Debate Club', hi: 'वाद-विवाद क्लब' },
+                { en: 'Science Club', hi: 'विज्ञान क्लब' },
+                { en: 'Sports Team', hi: 'खेल टीम' },
+                { en: 'Music Band', hi: 'संगीत बैंड' },
+                { en: 'Drama Club', hi: 'नाटक क्लब' }
+              ].map((activity, index) => (
+                <label key={index} className="flex items-center">
                   <input 
                     type="checkbox" 
-                    defaultChecked={activity === 'Science Club' || activity === 'Debate Club'} 
+                    defaultChecked={index === 0 || index === 1} 
                     className="mr-2 rounded focus:ring-purple-500" 
                   />
-                  <span className="text-sm text-gray-700">{activity}</span>
+                  <span className="text-sm text-gray-700">{language === 'en' ? activity.en : activity.hi}</span>
                 </label>
               ))}
             </div>
@@ -276,13 +295,15 @@ const ProfileTab = () => {
 
       {/* Parent/Guardian Information */}
       <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Parent/Guardian Information</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('profile.parentInfo')}</h3>
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <h4 className="font-medium text-gray-700 mb-3">Father's Details</h4>
+            <h4 className="font-medium text-gray-700 mb-3">
+              {language === 'en' ? "Father's Details" : 'पिता का विवरण'}
+            </h4>
             <div className="space-y-3">
               <div>
-                <label className="text-sm font-medium text-gray-600">Name</label>
+                <label className="text-sm font-medium text-gray-600">{language === 'en' ? 'Name' : 'नाम'}</label>
                 <input
                   type="text"
                   defaultValue="Rajesh Sharma"
@@ -291,7 +312,7 @@ const ProfileTab = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-600">Occupation</label>
+                <label className="text-sm font-medium text-gray-600">{language === 'en' ? 'Occupation' : 'व्यवसाय'}</label>
                 <input
                   type="text"
                   defaultValue="Software Engineer"
@@ -300,7 +321,7 @@ const ProfileTab = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-600">Contact Number</label>
+                <label className="text-sm font-medium text-gray-600">{language === 'en' ? 'Contact Number' : 'संपर्क नंबर'}</label>
                 <input
                   type="tel"
                   defaultValue="+91 98765 43210"
@@ -308,22 +329,15 @@ const ProfileTab = () => {
                   className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 disabled:bg-gray-50"
                 />
               </div>
-              <div>
-                <label className="text-sm font-medium text-gray-600">Email</label>
-                <input
-                  type="email"
-                  defaultValue="rajesh.sharma@email.com"
-                  disabled={!editMode}
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 disabled:bg-gray-50"
-                />
-              </div>
             </div>
           </div>
           <div>
-            <h4 className="font-medium text-gray-700 mb-3">Mother's Details</h4>
+            <h4 className="font-medium text-gray-700 mb-3">
+              {language === 'en' ? "Mother's Details" : 'माता का विवरण'}
+            </h4>
             <div className="space-y-3">
               <div>
-                <label className="text-sm font-medium text-gray-600">Name</label>
+                <label className="text-sm font-medium text-gray-600">{language === 'en' ? 'Name' : 'नाम'}</label>
                 <input
                   type="text"
                   defaultValue="Sunita Sharma"
@@ -332,7 +346,7 @@ const ProfileTab = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-600">Occupation</label>
+                <label className="text-sm font-medium text-gray-600">{language === 'en' ? 'Occupation' : 'व्यवसाय'}</label>
                 <input
                   type="text"
                   defaultValue="Teacher"
@@ -341,19 +355,10 @@ const ProfileTab = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-600">Contact Number</label>
+                <label className="text-sm font-medium text-gray-600">{language === 'en' ? 'Contact Number' : 'संपर्क नंबर'}</label>
                 <input
                   type="tel"
                   defaultValue="+91 98765 43211"
-                  disabled={!editMode}
-                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 disabled:bg-gray-50"
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-gray-600">Email</label>
-                <input
-                  type="email"
-                  defaultValue="sunita.sharma@email.com"
                   disabled={!editMode}
                   className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 disabled:bg-gray-50"
                 />

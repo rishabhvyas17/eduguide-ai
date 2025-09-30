@@ -1,6 +1,6 @@
 // client/src/pages/Students/components/Sidebar.jsx
 
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Home, 
   Calendar, 
@@ -12,14 +12,17 @@ import {
 } from 'lucide-react';
 import { mockStudent } from '../data/mockData';
 import { colors } from '../utils/colors';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 const Sidebar = ({ activeTab, setActiveTab, isCollapsed, onToggleCollapse }) => {
+  const { t } = useLanguage();
+  
   const menuItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: Home },
-    { id: 'scheduled', label: 'Scheduled Tests', icon: Calendar },
-    { id: 'learning', label: 'Learning', icon: BookOpen },
-    { id: 'analyse', label: 'Analyse', icon: BarChart3 },
-    { id: 'records', label: 'Records', icon: FileText }
+    { id: 'dashboard', label: t('nav.dashboard'), icon: Home },
+    { id: 'scheduled', label: t('nav.scheduled'), icon: Calendar },
+    { id: 'learning', label: t('nav.learning'), icon: BookOpen },
+    { id: 'analyse', label: t('nav.analyse'), icon: BarChart3 },
+    { id: 'records', label: t('nav.records'), icon: FileText }
   ];
 
   return (
@@ -133,7 +136,7 @@ const Sidebar = ({ activeTab, setActiveTab, isCollapsed, onToggleCollapse }) => 
             {/* Tooltip for collapsed profile */}
             {isCollapsed && (
               <div className="absolute left-full ml-2 bottom-0 bg-gray-800 text-white px-2 py-1 rounded text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
-                Profile Settings
+                {t('nav.profile')}
               </div>
             )}
           </div>

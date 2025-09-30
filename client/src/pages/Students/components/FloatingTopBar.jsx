@@ -1,7 +1,9 @@
 // client/src/pages/Students/components/FloatingTopBar.jsx
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 const FloatingTopBar = ({ activeTab, tabTitles, className }) => {
+  const { t } = useLanguage();
   const darkOverlayOpacity = 0.06;
 
   const mainBarOpacity = {
@@ -56,43 +58,43 @@ const FloatingTopBar = ({ activeTab, tabTitles, className }) => {
     switch (activeTab) {
       case 'dashboard':
         return [
-          { id: 'greeting', label: 'Overview' },
-          { id: 'stats', label: 'Quick Stats' },
-          { id: 'performance', label: 'Performance' },
-          { id: 'calendar', label: 'Calendar' },
-          { id: 'subjects', label: 'Subjects' }
+          { id: 'greeting', label: t('dashboard.greeting.morning').split(',')[0] }, // Just "Good Morning" or "सुप्रभात"
+          { id: 'stats', label: t('dashboard.overallPerformance') },
+          { id: 'performance', label: t('dashboard.performanceTrend') },
+          { id: 'calendar', label: t('dashboard.calendar') },
+          { id: 'subjects', label: t('dashboard.subjectPerformance') }
         ];
       case 'analyse':
         return [
-          { id: 'analytic-analyse', label: 'Analytic Analyse' },
-          { id: 'critical-thinking', label: 'Critical Thinking' }
+          { id: 'analytic-analyse', label: t('analyse.analyticAnalyse') },
+          { id: 'critical-thinking', label: t('analyse.criticalThinking') }
         ];
       case 'scheduled':
         return [
-          { id: 'calendar', label: 'Calendar' },
-          { id: 'tests', label: 'All Tests' },
-          { id: 'start-exam', label: 'Start Exam' },
-          { id: 'results', label: 'Results' }
+          { id: 'calendar', label: t('scheduled.testCalendar') },
+          { id: 'tests', label: t('scheduled.upcomingTests') },
+          { id: 'start-exam', label: t('scheduled.startExam') },
+          { id: 'results', label: t('scheduled.recentResults') }
         ];
       case 'learning':
         return [
-          { id: 'recommendations', label: 'AI Recommendations' },
-          { id: 'resources', label: 'Learning Resources' },
-          { id: 'career', label: 'Career Analysis' },
-          { id: 'goals', label: 'Study Goals' }
+          { id: 'recommendations', label: t('learning.aiRecommendations') },
+          { id: 'resources', label: t('learning.learningResources') },
+          { id: 'career', label: t('learning.careerAnalysis') },
+          { id: 'goals', label: t('learning.studyGoals') }
         ];
       case 'records':
         return [
-          { id: 'academic-records', label: 'Academic Records' },
-          { id: 'aptitude-tests', label: 'Aptitude Tests' },
-          { id: 'interview-records', label: 'Interview Records' }
+          { id: 'academic-records', label: t('records.academicRecords') },
+          { id: 'aptitude-tests', label: t('records.aptitudeTests') },
+          { id: 'interview-records', label: t('records.interviewRecords') }
         ];
       case 'profile':
         return [
-          { id: 'personal', label: 'Personal Info' },
-          { id: 'contact', label: 'Contact & Settings' },
-          { id: 'goals', label: 'Academic Goals' },
-          { id: 'parents', label: 'Parent Info' }
+          { id: 'personal', label: t('profile.personalInfo') },
+          { id: 'contact', label: t('profile.contactSettings') },
+          { id: 'goals', label: t('profile.academicGoals') },
+          { id: 'parents', label: t('profile.parentInfo') }
         ];
       default:
         return [];
@@ -118,7 +120,6 @@ const FloatingTopBar = ({ activeTab, tabTitles, className }) => {
     const buttonWidthPercent = 100 / tabSections.length;
     
     // Position bubble at the exact button position
-    // Each button starts at: index * buttonWidthPercent
     const leftPosition = activeSection * buttonWidthPercent;
     
     return `${leftPosition}%`;

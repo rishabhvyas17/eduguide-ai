@@ -23,10 +23,13 @@ import {
 } from 'recharts';
 import { mockStudent, mockAcademicData, mockPerformanceTrend, mockUpcomingTests } from '../data/mockData';
 import { colors } from '../utils/colors';
+import { useLanguage } from '../../../contexts/LanguageContext';
 
 const DashboardTab = () => {
+  const { t } = useLanguage();
   const currentHour = new Date().getHours();
-  const greeting = currentHour < 12 ? 'Good Morning' : currentHour < 17 ? 'Good Afternoon' : 'Good Evening';
+  const greetingKey = currentHour < 12 ? 'dashboard.greeting.morning' : currentHour < 17 ? 'dashboard.greeting.afternoon' : 'dashboard.greeting.evening';
+  const greeting = t(greetingKey);
   const today = new Date();
   const currentMonth = today.toLocaleString('default', { month: 'long', year: 'numeric' });
   
@@ -59,11 +62,11 @@ const DashboardTab = () => {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">{greeting}, {mockStudent.name}! 👋</h2>
-            <p className="text-gray-600 mt-2">Ready to continue your learning journey?</p>
+            <p className="text-gray-600 mt-2">{t('dashboard.subtitle')}</p>
           </div>
           <div className="text-right">
             <div className="text-3xl font-bold text-purple-600">88%</div>
-            <div className="text-sm text-gray-500">Overall Performance</div>
+            <div className="text-sm text-gray-500">{t('dashboard.overallPerformance')}</div>
           </div>
         </div>
       </div>
@@ -77,7 +80,7 @@ const DashboardTab = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-800">89%</p>
-              <p className="text-sm text-gray-600">Academic Average</p>
+              <p className="text-sm text-gray-600">{t('dashboard.academicAverage')}</p>
             </div>
           </div>
         </div>
@@ -89,7 +92,7 @@ const DashboardTab = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-800">85%</p>
-              <p className="text-sm text-gray-600">Aptitude Score</p>
+              <p className="text-sm text-gray-600">{t('dashboard.aptitudeScore')}</p>
             </div>
           </div>
         </div>
@@ -101,7 +104,7 @@ const DashboardTab = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-800">3rd</p>
-              <p className="text-sm text-gray-600">Class Rank</p>
+              <p className="text-sm text-gray-600">{t('dashboard.classRank')}</p>
             </div>
           </div>
         </div>
@@ -113,7 +116,7 @@ const DashboardTab = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-800">2</p>
-              <p className="text-sm text-gray-600">Goals Achieved</p>
+              <p className="text-sm text-gray-600">{t('dashboard.goalsAchieved')}</p>
             </div>
           </div>
         </div>
@@ -122,7 +125,7 @@ const DashboardTab = () => {
       <div className="grid grid-cols-4 gap-6">
         {/* Performance Trend */}
         <div id="performance" className="col-span-2 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Performance Trend</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('dashboard.performanceTrend')}</h3>
           <ResponsiveContainer width="100%" height={250}>
             <LineChart data={mockPerformanceTrend}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -139,7 +142,7 @@ const DashboardTab = () => {
         {/* Mini Calendar */}
         <div id="calendar" className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-800">Calendar</h3>
+            <h3 className="text-lg font-semibold text-gray-800">{t('dashboard.calendar')}</h3>
             <div className="flex items-center space-x-2">
               <button className="p-1 hover:bg-gray-100 rounded">
                 <ChevronLeft className="w-4 h-4 text-gray-600" />
@@ -169,9 +172,9 @@ const DashboardTab = () => {
                   className={`text-center p-1 rounded cursor-pointer ${
                     !isCurrentMonth ? 'text-gray-300' :
                     isToday ? 'bg-purple-600 text-white font-semibold' :
-                    hasPI ? 'bg-green-100 text-green-800 font-medium' :
-                    hasTest ? 'bg-blue-100 text-blue-800 font-medium' :
-                    'text-gray-700 hover:bg-gray-100'
+                    hasPI ? 'bg-green-500 text-white font-medium' :
+                    hasTest ? 'bg-blue-500 text-white font-medium' :
+                    'text-gray-800 hover:bg-gray-100'
                   }`}
                 >
                   {day}
@@ -182,18 +185,18 @@ const DashboardTab = () => {
           <div className="mt-3 space-y-1">
             <div className="flex items-center space-x-2 text-xs">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-              <span className="text-gray-600">Tests</span>
+              <span className="text-gray-600">{t('dashboard.tests')}</span>
             </div>
             <div className="flex items-center space-x-2 text-xs">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-gray-600">Interviews</span>
+              <span className="text-gray-600">{t('dashboard.interviews')}</span>
             </div>
           </div>
         </div>
 
         {/* Upcoming Tests */}
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Upcoming</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('dashboard.upcoming')}</h3>
           <div className="space-y-3">
             {mockUpcomingTests.slice(0, 3).map((test) => (
               <div key={test.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
@@ -214,7 +217,7 @@ const DashboardTab = () => {
 
       {/* Subject Performance */}
       <div id="subjects" className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Subject Performance</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('dashboard.subjectPerformance')}</h3>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={mockAcademicData}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
