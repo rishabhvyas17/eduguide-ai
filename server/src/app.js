@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const path = require('path'); // Don't forget to import 'path'
 require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
@@ -11,10 +12,6 @@ const assessmentRoutes = require('./routes/assessments');
 
 const app = express();
 app.set('trust proxy', 1);
-
-app.get('/', (req, res) => {
-  res.send('Welcome to Eduguide AI!');
-});
 
 // Security middleware
 app.use(helmet());
@@ -32,9 +29,6 @@ app.use(cors({
   credentials: true
 }));
 
-const path = require('path');
-app.use(express.static(path.join(__dirname, 'client/build')));
-
 // Logging
 app.use(morgan('combined'));
 
@@ -42,15 +36,14 @@ app.use(morgan('combined'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
+// Serve static files from the React build directory
+// This is the CRITICAL fix for the "Failed to load resource" error
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/assessments', assessmentRoutes);
-
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-});
 
 // Health check
 app.get('/api/health', (req, res) => {
@@ -59,6 +52,12 @@ app.get('/api/health', (req, res) => {
     message: 'EduGuide AI Server is running',
     timestamp: new Date().toISOString()
   });
+});
+
+// The catch-all route to serve the index.html for all other requests
+// This is the fix for the "PathError: Missing parameter name at index 1: *"
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 // Global error handler
@@ -70,7 +69,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler for unmatched routes
+// 404 handler for unmatched API routes
 app.use((req, res, next) => {
   res.status(404).json({ message: 'API endpoint not found' });
 });
