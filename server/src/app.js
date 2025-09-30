@@ -12,6 +12,10 @@ const assessmentRoutes = require('./routes/assessments');
 const app = express();
 app.set('trust proxy', 1);
 
+app.get('/', (req, res) => {
+  res.send('Welcome to Eduguide AI!');
+});
+
 // Security middleware
 app.use(helmet());
 
