@@ -56,7 +56,7 @@ app.get('/api/health', (req, res) => {
 
 // The catch-all route to serve the index.html for all other requests
 // This is the fix for the "PathError: Missing parameter name at index 1: *"
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
