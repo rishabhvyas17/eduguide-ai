@@ -11,7 +11,8 @@
     "install-server": "cd server && npm install",
     "install-client": "cd client && npm install",
     "install-all": "npm run install-server && npm run install-client",
-    "start": "cd server && npm start"
+    "start": "cd server && npm start",
+    "postbuild": "npm start"
   },
   "keywords": ["education", "ai", "assessment", "student-evaluation"],
   "author": "EduGuide AI Team",
